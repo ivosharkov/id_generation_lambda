@@ -1,0 +1,51 @@
+{
+  "containerDefinitions": [
+    {
+      "volumesFrom": [],
+      "portMappings": [
+        {
+          "hostPort": 5432,
+          "containerPort": 5432,
+          "protocol": "tcp"
+        }
+      ],
+      "essential": true,
+      "mountPoints": [
+        {
+          "containerPath": "/var/lib/postgresql/data",
+          "sourceVolume": "sonardb"
+        }
+      ],
+      "name": "sonardb",
+      "environment": [
+        {
+          "name": "POSTGRES_PASSWORD",
+          "value": "D07BADD0A69C41297850DCAD1B5CF7"
+        },
+        {
+          "name": "POSTGRES_USER",
+          "value": "sonar"
+        }
+      ],
+      "image": "postgres:9.5",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "10m",
+          "max-file": "2"
+        }
+      },
+      "cpu": 0,
+      "memoryReservation": 512
+    }
+  ],
+  "volumes": [
+    {
+      "host": {
+        "sourcePath": "/opt/sfly/sonardb/postgres/data"
+      },
+      "name": "sonardb"
+    }
+  ],
+  "family": "sonardb"
+}

@@ -1,0 +1,20 @@
+#Parsin rules required for the Jenkins' Log Parser Plugin
+#more details here https://wiki.jenkins.io/display/JENKINS/Log+Parser+Plugin
+ok /not really/
+ 
+# match line starting with 'error ', case-insensitive
+# Removing, triggered by successful surefire output
+# error /[Ee]rror/
+error /ERROR/
+ 
+# list of warnings here...
+# Removing, triggered by successful surefire outputs
+# warning /[Ww]arning/
+warning /WARNING/
+ 
+# create a quick access link to lines in the report containing 'INFO'
+info /INFO/
+ 
+# each line containing 'BUILD' represents the start of a section for grouping errors and warnings found after the line.
+# also creates a quick access link.
+start /BUILD/

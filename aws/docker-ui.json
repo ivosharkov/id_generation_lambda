@@ -1,0 +1,52 @@
+{
+  "containerDefinitions": [
+    {
+      "volumesFrom": [],
+      "memory": 128,
+      "portMappings": [
+        {
+          "hostPort": 9000,
+          "containerPort": 9000,
+          "protocol": "tcp"
+        }
+      ],
+      "essential": true,
+      "mountPoints": [
+        {
+          "containerPath": "/usr/bin/docker",
+          "sourceVolume": "dockerBin"
+        },
+        {
+          "containerPath": "/var/run/docker.sock",
+          "sourceVolume": "dockerSock"
+        }
+      ],
+      "name": "docker-ui",
+      "environment": [],
+      "image": "portainer/portainer",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m",
+          "max-file": "4"
+        }
+      },
+      "cpu": 0
+    }
+  ],
+  "volumes": [
+    {
+      "host": {
+        "sourcePath": "/var/run/docker.sock"
+      },
+      "name": "dockerSock"
+    },
+    {
+      "host": {
+        "sourcePath": "/usr/local/bin/docker"
+      },
+      "name": "dockerBin"
+    }
+  ],
+  "family": "docker-ui"
+}

@@ -1,0 +1,122 @@
+{
+  "containerDefinitions": [
+    {
+      "volumesFrom": [],
+      "portMappings": [
+        {
+          "hostPort": 8000,
+          "containerPort": 8080,
+          "protocol": "tcp"
+        },
+        {
+          "hostPort": 5000,
+          "containerPort": 5000,
+          "protocol": "tcp"
+        }
+      ],
+      "essential": true,
+      "entryPoint": [],
+      "mountPoints": [
+        {
+          "containerPath": "/var/jenkins_home",
+          "sourceVolume": "jenkinsMaster"
+        }
+      ],
+      "name": "jenkins-master",
+      "environment": [
+        {
+          "name": "JAVA_OPTS",
+          "value": "-Dhudson.model.ParametersAction.safeParameters=ghprbActualCommit,ghprbActualCommitAuthor,ghprbActualCommitAuthorEmail,ghprbAuthorRepoGitUrl,ghprbCommentBody,ghprbCredentialsId,ghprbGhRepository,ghprbPullAuthorEmail,ghprbPullAuthorLogin,ghprbPullAuthorLoginMention,ghprbPullDescription,ghprbPullId,ghprbPullLink,ghprbPullLongDescription,ghprbPullTitle,ghprbSourceBranch,ghprbTargetBranch,ghprbTriggerAuthor,ghprbTriggerAuthorEmail,ghprbTriggerAuthorLogin,ghprbTriggerAuthorLoginMention,GIT_BRANCH,sha1,SVC_NAME,TAG_ID,sha1,CLUSTER_NAME,TARGET_HOST -Dhudson.model.DirectoryBrowserSupport.CSP=\"default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';\""
+        }
+      ],
+      "image": "jenkins",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "50m",
+          "max-file": "4"
+        }
+      },
+      "cpu": 0,
+      "memoryReservation": 1024
+    },
+    {
+      "volumesFrom": [],
+      "portMappings": [
+        {
+          "hostPort": 10020,
+          "containerPort": 22,
+          "protocol": "tcp"
+        }
+      ],
+      "essential": true,
+      "mountPoints": [
+        {
+          "containerPath": "/home/jenkins/.ssh",
+          "sourceVolume": "jenkinsSlave"
+        },
+        {
+          "containerPath": "/home/jenkins/.aws",
+          "sourceVolume": "jenkinsSlaveAWS"
+        },
+        {
+          "containerPath": "/home/jenkins/.docker",
+          "sourceVolume": "jenkinsSlaveDocker"
+        },
+        {
+          "containerPath": "/usr/bin/docker",
+          "sourceVolume": "dockerBin"
+        },
+        {
+          "containerPath": "/var/run/docker.sock",
+          "sourceVolume": "dockerSock"
+        }
+      ],
+      "name": "jenkins-slave",
+      "environment": [],
+      "image": "524115710791.dkr.ecr.eu-west-1.amazonaws.com/sfly-poc:latest",
+      "cpu": 0,
+      "privileged": true,
+      "memoryReservation": 1024
+    }
+  ],
+  "volumes": [
+    {
+      "host": {
+        "sourcePath": "/opt/sfly/jenkins"
+      },
+      "name": "jenkinsMaster"
+    },
+    {
+      "host": {
+        "sourcePath": "/opt/sfly/jenkins-slave/java-slave/files/aws"
+      },
+      "name": "jenkinsSlaveAWS"
+    },
+    {
+      "host": {
+        "sourcePath": "/opt/sfly/jenkins-slave/java-slave/files/docker"
+      },
+      "name": "jenkinsSlaveDocker"
+    },
+    {
+      "host": {
+        "sourcePath": "/opt/sfly/jenkins-slave/java-slave/files/ssh"
+      },
+      "name": "jenkinsSlave"
+    },
+    {
+      "host": {
+        "sourcePath": "/var/run/docker.sock"
+      },
+      "name": "dockerSock"
+    },
+    {
+      "host": {
+        "sourcePath": "/usr/bin/docker"
+      },
+      "name": "dockerBin"
+    }
+  ],
+  "family": "jenkins-stack"
+}

@@ -1,0 +1,8 @@
+# remove exited containers:
+50 04 * * * docker ps --filter status=dead --filter status=exited -aq | xargs -r docker rm -v >> /var/log/cron.log
+
+# remove unused not tagged images:
+53 04 * * * docker images --no-trunc | grep '<none>' | awk '{ print $3 }' | xargs -r docker rmi >> /var/log/cron.log
+
+# remove all stratus-ci tagged images (force is required because of multiple tags):
+56 04 * * * docker images --no-trunc | grep 'stratus-ci' | awk '{ print $3 }' | xargs -r docker rmi -f >> /var/log/cron.log

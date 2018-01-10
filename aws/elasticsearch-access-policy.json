@@ -1,0 +1,23 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "*"
+      },
+      "Action": "es:*",
+      "Resource": "arn:aws:es:eu-west-1:524115710791:domain/sfly-poc/*",
+      "Condition": {
+        "IpAddress": {
+          "aws:SourceIp": [
+            "94.156.47.57",
+            "46.10.222.215",
+            "52.30.65.88",
+            "52.214.74.246"
+          ]
+        }
+      }
+    }
+  ]
+}

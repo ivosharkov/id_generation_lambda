@@ -1,0 +1,70 @@
+{
+  "containerDefinitions": [
+    {
+      "volumesFrom": [],
+      "portMappings": [
+        {
+          "hostPort": 19000,
+          "containerPort": 9000,
+          "protocol": "tcp"
+        },
+        {
+          "hostPort": 19092,
+          "containerPort": 9092,
+          "protocol": "tcp"
+        }
+      ],
+      "essential": true,
+      "mountPoints": [
+        {
+          "containerPath": "/opt/sonarqube/extensions",
+          "sourceVolume": "sonarExtensions"
+        },
+        {
+          "containerPath": "/opt/sonarqube/lib/bundled-plugins",
+          "sourceVolume": "sonarPlugins"
+        }
+      ],
+      "name": "sonarqube",
+      "environment": [
+        {
+          "name": "SONARQUBE_JDBC_PASSWORD",
+          "value": "D07BADD0A69C41297850DCAD1B5CF7"
+        },
+        {
+          "name": "SONARQUBE_JDBC_URL",
+          "value": "jdbc:postgresql://172.31.8.101:5432/sonar"
+        },
+        {
+          "name": "SONARQUBE_JDBC_USERNAME",
+          "value": "sonar"
+        }
+      ],
+      "image": "sonarqube:5.6.7",
+      "logConfiguration": {
+        "logDriver": "json-file",
+        "options": {
+          "max-size": "10m",
+          "max-file": "2"
+        }
+      },
+      "cpu": 0,
+      "memoryReservation": 2048
+    }
+  ],
+  "volumes": [
+    {
+      "host": {
+        "sourcePath": "/opt/sfly/sonarqube/extensions"
+      },
+      "name": "sonarExtensions"
+    },
+    {
+      "host": {
+        "sourcePath": "/opt/sfly/sonarqube/lib/bundled-plugins"
+      },
+      "name": "sonarPlugins"
+    }
+  ],
+  "family": "sonarqube"
+}

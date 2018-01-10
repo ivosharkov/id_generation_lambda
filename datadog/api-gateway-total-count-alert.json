@@ -1,0 +1,26 @@
+{
+	"name": "Total Count API  GATEWAY generateId",
+	"type": "query alert",
+	"query": "sum(last_1m):avg:aws.apigateway.count{apiname:id_generation_service,!stage:stg}.as_count() > 2000",
+	"message": "API GATEWAY total count is above the threshold\n\nPlease inspect logs in https://search-sfly-poc-6w7lbr3znbn2vdpxtlfhkxum2m.eu-west-1.es.amazonaws.com/_plugin/kibana/app/kibana\n\n @slack-poc-alerting",
+	"tags": [
+		"*"
+	],
+	"options": {
+		"timeout_h": 1,
+		"notify_no_data": false,
+		"no_data_timeframe": 10,
+		"notify_audit": true,
+		"require_full_window": true,
+		"new_host_delay": 300,
+		"include_tags": false,
+		"escalation_message": "",
+		"locked": false,
+		"renotify_interval": "0",
+		"evaluation_delay": "",
+		"thresholds": {
+			"critical": 2000,
+			"warning": 1000
+		}
+	}
+}
